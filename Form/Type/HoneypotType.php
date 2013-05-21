@@ -52,9 +52,6 @@ class HoneypotType extends AbstractType
 
                 // Check if we need to save request in db
                 if ($this->useDB) {
-                    ignore_user_abort(true);
-                    set_time_limit(0);
-
                     $prey = new HoneypotPrey();
                     $prey->setRequest($_REQUEST);
                     $prey->setServer($_SERVER);
@@ -76,6 +73,16 @@ class HoneypotType extends AbstractType
             'required' => false,
             'virtual' => true
         ));
+    }
+
+    /**
+     * Set objectManager
+     *
+     * @param ObjectManager $om
+     */
+    public function setObjectManager(ObjectManager $om)
+    {
+        $this->om = $om;
     }
 
     /**

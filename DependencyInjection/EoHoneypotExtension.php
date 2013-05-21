@@ -41,7 +41,7 @@ class EoHoneypotExtension extends Extension
         // Define honeypot form type
         $definition = new Definition('Eo\HoneypotBundle\Form\Type\HoneypotType', array($config['use_db']));
         $definition->addTag('form.type', array('alias' => 'honeypot'));
-        if ($config['use_db'] == true) $definition->addMethodCall('setObjectManager', $container->get('doctrine_odm'));
+        if ($config['use_db'] == true) $definition->addMethodCall('setObjectManager', array(new Reference('doctrine.odm.mongodb.document_manager')));
         $container->setDefinition('eo_honeypot.form.type.honeypot', $definition);
     }
 }

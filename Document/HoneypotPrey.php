@@ -54,7 +54,9 @@ class HoneypotPrey
      */
     public function __construct()
     {
-        $this->ip = isset($_SERVER['REMOTE_ADDR']) ?: null;
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $this->ip = $_SERVER['REMOTE_ADDR'];
+        }
     }
 
     /**
