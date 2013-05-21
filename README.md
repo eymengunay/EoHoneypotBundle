@@ -43,7 +43,17 @@ public function registerBundles()
 }
 ```
 
-### There is no step 3
+### Step 3 (optional): Configure bundle to use database
+To save honeypot catched requests into database you have to enable it in your configuration file:
+
+> Currently only mongodb is supported.
+
+```
+# app/config.yml
+...
+eo_honeypot:
+    use_db: true
+```
 
 ## Usage
 Once installed and configured you can start using `honeypot` type in your forms.

@@ -29,6 +29,12 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('eo_honeypot');
 
+        $rootNode
+            ->children()
+                ->booleanNode('use_db')->defaultValue(false)->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }

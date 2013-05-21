@@ -11,6 +11,8 @@
 
 namespace Eo\HoneypotBundle\Form\Type;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use Eo\HoneypotBundle\Document\HoneypotPrey;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -19,6 +21,24 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class HoneypotType extends AbstractType
 {
+    /**
+     * @var ObjectManager
+     */
+    protected $om;
+
+    /**
+     * @var boolean
+     */
+    protected $useDB = false;
+
+    /**
+     * Class constructor
+     */
+    public function __construct($useDB = false)
+    {
+        $this->useDB = $useDB;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -29,6 +49,19 @@ class HoneypotType extends AbstractType
                 $protocol = $_SERVER['HTTPS'] == 'off' ? 'http' : 'https';
                 $url = $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
                 header('Location: ' . $url);
+
+                // Check if we need to save request in db
+                if ($this->useDB) {
+                    ignore_user_abort(true);
+                    set_time_limit(0);
+
+                    $prey = new HoneypotPrey();
+                    $prey->setRequest($_REQUEST);
+                    $prey->setServer($_SERVER);
+                    $this->om->persist($prey);
+                    $this->om->flush();
+                }
+
                 exit;
             }
         });
