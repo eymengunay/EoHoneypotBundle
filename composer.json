@@ -1,8 +1,8 @@
 {
     "name": "eo/honeypot-bundle",
     "type": "symfony-bundle",
-    "description": "Airbrake.io integration for Symfony2",
-    "keywords": ["airbrake", "exception", "errbit"],
+    "description": "Honeypot trap for Symfony2 forms.",
+    "keywords": ["honeypot", "spam"],
     "license": "MIT",
     "authors": [
         {
