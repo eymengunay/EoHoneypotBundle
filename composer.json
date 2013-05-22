@@ -1,13 +1,27 @@
 {
     "name": "eo/honeypot-bundle",
-    "require": {
-        "symfony/symfony": ">=2.1,<2.4-dev"
-    },
+    "type": "symfony-bundle",
+    "description": "Airbrake.io integration for Symfony2",
+    "keywords": ["airbrake", "exception", "errbit"],
     "license": "MIT",
     "authors": [
         {
             "name": "Eymen Gunay",
             "email": "eymen@egunay.com"
         }
-    ]
+    ],
+    "require": {
+        "symfony/symfony": ">=2.1,<2.4-dev"
+    },
+    "target-dir": "Eo/HoneypotBundle",
+    "autoload": {
+        "psr-0": {
+            "Eo\\HoneypotBundle": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }
