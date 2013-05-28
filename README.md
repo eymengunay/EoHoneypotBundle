@@ -1,5 +1,7 @@
 # EoHoneypotBundle
 
+[![Dependencies Status](https://d2xishtp1ojlk0.cloudfront.net/d/10199786)](http://depending.in/eymengunay/EoHoneypotBundle)
+
 Honeypot for Symfony2 forms.
 
 ## What is Honey pot?
