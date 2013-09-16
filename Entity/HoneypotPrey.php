@@ -2,6 +2,7 @@
 
 namespace Eo\HoneypotBundle\Entity;
 
+use Eo\HoneypotBundle\Model\HoneypotPrey as BaseHoneypotPrey;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

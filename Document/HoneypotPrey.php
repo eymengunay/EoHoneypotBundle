@@ -2,6 +2,7 @@
 
 namespace Eo\HoneypotBundle\Document;
 
+use Eo\HoneypotBundle\Model\HoneypotPrey as BaseHoneypotPrey;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
