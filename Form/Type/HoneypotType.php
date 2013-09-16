@@ -13,31 +13,20 @@ namespace Eo\HoneypotBundle\Form\Type;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Eo\HoneypotBundle\Document\HoneypotPrey;
+use Eo\HoneypotBundle\Event\BirdInCageEvent;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class HoneypotType extends AbstractType
 {
     /**
-     * @var ObjectManager
+     * @var ContainerInterface
      */
-    protected $om;
-
-    /**
-     * @var boolean
-     */
-    protected $useDB = false;
-
-    /**
-     * Class constructor
-     */
-    public function __construct($useDB = false)
-    {
-        $this->useDB = $useDB;
-    }
+    protected $container;
 
     /**
      * {@inheritdoc}
@@ -46,22 +35,52 @@ class HoneypotType extends AbstractType
     {
         $builder->addEventListener(FormEvents::PRE_BIND, function(FormEvent $event) {
             if ($event->getData() !== "") {
-                $protocol = $_SERVER['HTTPS'] == 'off' ? 'http' : 'https';
-                $url = $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-                header('Location: ' . $url);
+
+                // Dispatch bird in cage event
+                $event = new BirdInCageEvent($seance);
+                $this->container->get('event_dispatcher')->dispatch(Events::MAP_GENERATE, $event);
+
+                $request = $this->container->get('request');
 
                 // Check if we need to save request in db
-                if ($this->useDB) {
+                if ($this->container->getParameter('eo_honeypot.use_db')) {
                     $prey = new HoneypotPrey();
-                    $prey->setRequest($_REQUEST);
-                    $prey->setServer($_SERVER);
-                    $this->om->persist($prey);
-                    $this->om->flush();
+                    $prey
+                        ->setRequest(strval($request))
+                        ->setIp($request->getClientIp())
+                    ;
+
+                    $om = $this->getManager();
+                    $om->persist($prey);
+                    $om->flush($prey);
                 }
 
+                header(sprintf("Location: %s", $request->get));
                 exit;
             }
         });
+    }
+
+    /**
+     * Get manager
+     * 
+     * @return ObjectManager
+     */
+    public function getManager()
+    {
+        $id = false;
+        switch ($this->container->getParameter('eo_honeypot.db_driver')) {
+            case 'orm':
+                $id = 'doctrine';
+                break;
+            case 'mongodb':
+                $id = 'doctrine_mongodb';
+                break;
+            default:
+                throw new \LogicException("Invalid db driver given");
+                break;
+        }
+        return $this->container->get($id)->getManager();
     }
 
     /**
@@ -71,18 +90,18 @@ class HoneypotType extends AbstractType
     {
         $resolver->setDefaults(array(
             'required' => false,
-            'virtual' => true
+            'virtual'  => true
         ));
     }
 
     /**
-     * Set objectManager
+     * Set container
      *
-     * @param ObjectManager $om
+     * @param ContainerInterface $container
      */
-    public function setObjectManager(ObjectManager $om)
+    public function setContainer(ContainerInterface $container)
     {
-        $this->om = $om;
+        $this->container = $container;
     }
 
     /**
