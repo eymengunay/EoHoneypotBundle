@@ -55,12 +55,13 @@ To save honeypot catched requests into database you have to enable it in your co
 ...
 eo_honeypot:
     use_db: true
+    db_driver: mongodb # orm and mongodb are supported
 ```
 
 ## Usage
 Once installed and configured you can start using `honeypot` type in your forms.
 
-### Example usage:
+### Basic usage example:
 ```
 <?php
 
@@ -86,6 +87,10 @@ class FooType extends AbstractType
     }
 }
 ```
+
+### Events
+
+If the hidden honeypot field has some data bundle will dispatch a `bird.in.cage` event. You can create an event listener to execute custom actions. See [Eo\HoneypotBundle\Event\BirdInCage](https://github.com/eymengunay/EoHoneypotBundle/blob/master/Event/BirdInCageEvent.php) and [How to Register Event Listeners and Subscribers](http://symfony.com/doc/current/cookbook/doctrine/event_listeners_subscribers.html) for more information.
 
 ## License
 This bundle is under the MIT license. See the complete license in the bundle:
