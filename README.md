@@ -48,8 +48,6 @@ public function registerBundles()
 ### Step 3 (optional): Configure bundle to use database
 To save honeypot catched requests into database you have to enable it in your configuration file:
 
-> Currently only mongodb is supported.
-
 ```
 # app/config.yml
 ...
