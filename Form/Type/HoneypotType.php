@@ -28,6 +28,11 @@ class HoneypotType extends AbstractType
      */
     protected $container;
 
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -92,16 +97,6 @@ class HoneypotType extends AbstractType
             'required' => false,
             'virtual'  => true
         ));
-    }
-
-    /**
-     * Set container
-     *
-     * @param ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
-    {
-        $this->container = $container;
     }
 
     /**
