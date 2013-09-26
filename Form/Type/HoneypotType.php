@@ -97,7 +97,10 @@ class HoneypotType extends AbstractType
     {
         $resolver->setDefaults(array(
             'required' => false,
-            'virtual'  => true
+            'virtual'  => true,
+            'attr'     => array(
+                'autocomplete' => 'off'
+            )
         ));
     }
 
