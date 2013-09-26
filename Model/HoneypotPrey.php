@@ -5,7 +5,7 @@ namespace Eo\HoneypotBundle\Model;
 /**
  * Eo\HoneypotBundle\Model\HoneypotPrey
  */
-abstract class HoneypotPrey
+abstract class HoneypotPrey implements HoneypotPreyInterface
 {
     public function __construct()
     {
