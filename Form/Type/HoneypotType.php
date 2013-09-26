@@ -11,9 +11,10 @@
 
 namespace Eo\HoneypotBundle\Form\Type;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Eo\HoneypotBundle\Events;
 use Eo\HoneypotBundle\Document\HoneypotPrey;
 use Eo\HoneypotBundle\Event\BirdInCageEvent;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -41,11 +42,11 @@ class HoneypotType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_BIND, function(FormEvent $event) {
             if ($event->getData() !== "") {
 
-                // Dispatch bird in cage event
-                $event = new BirdInCageEvent($seance);
-                $this->container->get('event_dispatcher')->dispatch(Events::MAP_GENERATE, $event);
-
                 $request = $this->container->get('request');
+
+                // Dispatch bird in cage event
+                $event = new BirdInCageEvent($request);
+                $this->container->get('event_dispatcher')->dispatch(Events::BIRD_IN_CAGE, $event);
 
                 // Check if we need to save request in db
                 if ($this->container->getParameter('eo_honeypot.use_db')) {
@@ -60,7 +61,8 @@ class HoneypotType extends AbstractType
                     $om->flush($prey);
                 }
 
-                header(sprintf("Location: %s", $request->get));
+                $redirect = sprintf("%s://%s%s", $this->container->getParameter('router.request_context.scheme'), $this->container->getParameter('router.request_context.host'), $this->container->getParameter('router.request_context.base_url'));
+                header(sprintf("Location: %s", $redirect));
                 exit;
             }
         });
@@ -68,7 +70,7 @@ class HoneypotType extends AbstractType
 
     /**
      * Get manager
-     * 
+     *
      * @return ObjectManager
      */
     public function getManager()
