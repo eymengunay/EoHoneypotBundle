@@ -77,7 +77,11 @@ class HoneypotType extends AbstractType
             'required' => false,
             'virtual'  => true,
             'attr'     => array(
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
+                // Fake hide input instead of using display: none
+                // as advanced bots may check this value to bypass
+                // honeypot protection.
+                'style' => 'position: absolute; left: -100%; top: -100%;'
             )
         ));
     }

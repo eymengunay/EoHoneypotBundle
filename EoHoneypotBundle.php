@@ -11,8 +11,16 @@
 
 namespace Eo\HoneypotBundle;
 
+use Eo\HoneypotBundle\DependencyInjection\Compiler\FormCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EoHoneypotBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new FormCompilerPass());
+    }
 }
