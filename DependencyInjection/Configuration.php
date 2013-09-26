@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('use_db')
                     ->defaultValue(false)
                 ->end()
+                ->scalarNode('db_class')->defaultValue('EoHoneypotBundle:HoneypotPrey')->end()
                 ->scalarNode('db_driver')
                     ->defaultValue('mongodb')
                     ->validate()

@@ -56,7 +56,7 @@ class HoneypotType extends AbstractType
                         ->setIp($request->getClientIp())
                     ;
 
-                    $om = $this->getManager();
+                    $om = $this->container->get('eo_honeypot.manager')->getObjectManager();
                     $om->persist($prey);
                     $om->flush($prey);
                 }
@@ -66,28 +66,6 @@ class HoneypotType extends AbstractType
                 exit;
             }
         });
-    }
-
-    /**
-     * Get manager
-     *
-     * @return ObjectManager
-     */
-    public function getManager()
-    {
-        $id = false;
-        switch ($this->container->getParameter('eo_honeypot.db_driver')) {
-            case 'orm':
-                $id = 'doctrine';
-                break;
-            case 'mongodb':
-                $id = 'doctrine_mongodb';
-                break;
-            default:
-                throw new \LogicException("Invalid db driver given");
-                break;
-        }
-        return $this->container->get($id)->getManager();
     }
 
     /**
