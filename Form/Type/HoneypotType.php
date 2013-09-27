@@ -12,9 +12,9 @@
 namespace Eo\HoneypotBundle\Form\Type;
 
 use Eo\HoneypotBundle\Events;
-use Eo\HoneypotBundle\Document\HoneypotPrey;
 use Eo\HoneypotBundle\Event\BirdInCageEvent;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -40,30 +40,25 @@ class HoneypotType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventListener(FormEvents::PRE_BIND, function(FormEvent $event) {
-            if ($event->getData() !== "") {
-
+            if ($event->getData()) {
                 $request = $this->container->get('request');
+                $hm = $this->container->get('eo_honeypot.manager');
 
-                // Dispatch bird in cage event
-                $event = new BirdInCageEvent($request);
-                $this->container->get('event_dispatcher')->dispatch(Events::BIRD_IN_CAGE, $event);
+                // Create new prey
+                $prey = $hm->createNew($request->getClientIp());
 
-                // Check if we need to save request in db
-                if ($this->container->getParameter('eo_honeypot.use_db')) {
-                    $prey = new HoneypotPrey();
-                    $prey
-                        ->setRequest(strval($request))
-                        ->setIp($request->getClientIp())
-                    ;
+                // Dispatch bird.in.cage event
+                $this->container->get('event_dispatcher')->dispatch(Events::BIRD_IN_CAGE, new BirdInCageEvent($prey));
 
-                    $om = $this->container->get('eo_honeypot.manager')->getObjectManager();
-                    $om->persist($prey);
-                    $om->flush($prey);
+                // Save prey
+                $hm->save($prey);
+
+                $options = $hm->getOptions();
+                if ($options['redirect']['enabled']) {
+                    header(sprintf("Location: %s", $options['redirect']['to'] ? $options['redirect']['to'] : $request->getUri()));
+                    exit;
                 }
-
-                $redirect = sprintf("%s://%s%s", $this->container->getParameter('router.request_context.scheme'), $this->container->getParameter('router.request_context.host'), $this->container->getParameter('router.request_context.base_url'));
-                header(sprintf("Location: %s", $redirect));
-                exit;
+                $event->getForm()->getParent()->addError(new FormError('Form is invalid.'));
             }
         });
     }
@@ -75,12 +70,12 @@ class HoneypotType extends AbstractType
     {
         $resolver->setDefaults(array(
             'required' => false,
-            'virtual'  => true,
+            'mapped'   => false,
+            'data'     => '',
             'attr'     => array(
                 'autocomplete' => 'off',
-                // Fake hide input instead of using display: none
-                // as advanced bots may check this value to bypass
-                // honeypot protection.
+                // Fake `display:none` css behaviour to hide input
+                // as some bots may also check inputs visibility
                 'style' => 'position: absolute; left: -100%; top: -100%;'
             )
         ));

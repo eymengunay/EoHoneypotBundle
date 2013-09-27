@@ -14,17 +14,33 @@ namespace Eo\HoneypotBundle\Model;
 /**
  * Eo\HoneypotBundle\Model\HoneypotPrey
  */
-abstract class HoneypotPrey implements HoneypotPreyInterface
+class HoneypotPrey implements HoneypotPreyInterface
 {
-    public function __construct()
+    /**
+     * @var string
+     */
+    protected $id;
+
+    /**
+     * @var string
+     */
+    protected $ip;
+
+    /**
+     * @var DateTime
+     */
+    protected $createdAt;
+
+    public function __construct($ip = null)
     {
+        $this->ip = $ip;
         $this->createdAt = new \DateTime();
     }
 
     /**
      * Get id
      *
-     * @return integer $id
+     * @return string $id
      */
     public function getId()
     {
@@ -32,31 +48,9 @@ abstract class HoneypotPrey implements HoneypotPreyInterface
     }
 
     /**
-     * Set request
-     *
-     * @param  string $request
-     * @return self
-     */
-    public function setRequest($request)
-    {
-        $this->request = $request;
-        return $this;
-    }
-
-    /**
-     * Get request
-     *
-     * @return string $request
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
      * Set ip
      *
-     * @param string $ip
+     * @param  string $ip
      * @return self
      */
     public function setIp($ip)

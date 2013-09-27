@@ -47,13 +47,25 @@ public function registerBundles()
 
 ### Step 3 (optional): Configure bundle to use database
 To save honeypot catched requests into database you have to enable it in your configuration file:
+*All parameters are optional*
 
 ```
 # app/config.yml
 ...
 eo_honeypot:
-    use_db: true
-    db_driver: mongodb # orm and mongodb are supported
+    storage:
+        database:
+            enabled: false
+            driver: mongodb # orm and mongodb are supported
+            class: EoHoneypotBundle:HoneypotPrey
+        # You can also use file format to store honeypot preys.
+        # This may come handy if you need to parse logs with fail2ban
+        # file:
+            # enabled: false
+            # output: /var/log/honeypot.log
+    redirect:
+        enabled: true
+        to: "/"
 ```
 
 ## Usage

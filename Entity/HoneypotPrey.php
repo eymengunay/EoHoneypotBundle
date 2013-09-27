@@ -29,11 +29,6 @@ class HoneypotPrey extends BaseHoneypotPrey
     protected $id;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $request;
-
-    /**
      * @ORM\Column(length=45)
      */
     protected $ip;

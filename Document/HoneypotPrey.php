@@ -30,11 +30,6 @@ class HoneypotPrey extends BaseHoneypotPrey
     /**
      * @ODM\String
      */
-    protected $request;
-
-    /**
-     * @ODM\String
-     */
     protected $ip;
 
     /**

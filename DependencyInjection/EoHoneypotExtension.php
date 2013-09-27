@@ -36,23 +36,21 @@ class EoHoneypotExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $container->setParameter('eo_honeypot.use_db', $config['use_db']);
         // Set db
-        if ($config['use_db']) {
-            switch ($config['db_driver']) {
+        if ($config['storage']['database']['enabled']) {
+            switch ($config['storage']['database']['driver']) {
                 case 'orm':
-                    $container->setParameter('eo_honeypot.db_service', 'doctrine');
+                    $db = new Reference('doctrine.orm.entity_manager');
                     break;
                 case 'mongodb':
-                    $container->setParameter('eo_honeypot.db_service', 'doctrine_mongodb');
+                    $db = new Reference('doctrine.odm.mongodb.document_manager');
                     break;
                 default:
                     throw new \LogicException("Invalid db driver given");
                     break;
             }
-            $container->setParameter('eo_honeypot.db_driver', $config['db_driver']);
-            $container->setParameter('eo_honeypot.db_class', $config['db_class']);
+            $container->getDefinition('eo_honeypot.manager')->addMethodCall('setObjectManager', array($db));
         }
-        $container->setParameter('eo_honeypot.db_class', $config['db_class']);
+        $container->setParameter('eo_honeypot.options', $config);
     }
 }

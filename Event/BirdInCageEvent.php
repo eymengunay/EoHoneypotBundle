@@ -1,27 +1,41 @@
 <?php
 
+/*
+ * This file is part of the EoHoneypotBundle package.
+ *
+ * (c) Eymen Gunay <eymen@egunay.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Eo\HoneypotBundle\Event;
 
+use Eo\HoneypotBundle\Model\HoneypotPreyInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\HttpFoundation\Request;
 
 class BirdInCageEvent extends Event
 {
     /**
-     * @var Request
+     * @var HoneypotPreyInterface
      */
-    protected $request;
+    protected $prey;
 
-    public function __construct(Request $request)
+    /**
+     * Class constructor
+     *
+     * @param HoneypotPreyInterface $prey
+     */
+    public function __construct(HoneypotPreyInterface $prey)
     {
-        $this->request = $request;
+        $this->prey = $prey;
     }
 
     /**
-     * @return Request
+     * @return HoneypotPreyInterface
      */
-    public function getRequest()
+    public function getPrey()
     {
-        return $this->request;
+        return $this->prey;
     }
 }
