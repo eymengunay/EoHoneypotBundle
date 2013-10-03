@@ -43,18 +43,18 @@ class HoneypotType extends AbstractType
         // and re-introduced with 5.4. This small hack is here for 5.3 compability.
         // https://wiki.php.net/rfc/closures/removal-of-this
         // http://php.net/manual/en/migration54.new-features.php
-        $self = $this;
+        $container = $this->container;
 
-        $builder->addEventListener(FormEvents::PRE_BIND, function(FormEvent $event) use ($self) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) use ($container) {
             if ($event->getData()) {
-                $request = $self->container->get('request');
-                $hm = $self->container->get('eo_honeypot.manager');
+                $request = $container->get('request');
+                $hm = $container->get('eo_honeypot.manager');
 
                 // Create new prey
                 $prey = $hm->createNew($request->getClientIp());
 
                 // Dispatch bird.in.cage event
-                $self->container->get('event_dispatcher')->dispatch(Events::BIRD_IN_CAGE, new BirdInCageEvent($prey));
+                $container->get('event_dispatcher')->dispatch(Events::BIRD_IN_CAGE, new BirdInCageEvent($prey));
 
                 // Save prey
                 $hm->save($prey);
