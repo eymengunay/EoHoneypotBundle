@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Eo\HoneypotBundle\Entity\HoneypotPrey
  *
+ * @ORM\Entity
  * @ORM\Table(name="honeypot_prey")
  */
 class HoneypotPrey extends BaseHoneypotPrey
