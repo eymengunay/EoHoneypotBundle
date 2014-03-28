@@ -80,6 +80,7 @@ class HoneypotType extends AbstractType
             'data'     => '',
             'attr'     => array(
                 'autocomplete' => 'off',
+                'tabindex' => -1,
                 // Fake `display:none` css behaviour to hide input
                 // as some bots may also check inputs visibility
                 'style' => 'position: absolute; left: -100%; top: -100%;'
