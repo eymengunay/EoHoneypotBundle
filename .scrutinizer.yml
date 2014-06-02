@@ -1,10 +1,8 @@
 filter:
     excluded_paths:
         - 'vendor/*'
-        - 'tests/*'
-        - 'app/*'
+        - 'Tests/*'
         - 'bin/*'
-        - 'library/*'
     paths: {  }
 tools:
     php_sim:
@@ -13,10 +11,8 @@ tools:
         filter:
             excluded_paths:
                 - 'vendor/*'
-                - 'tests/*'
-                - 'app/*'
+                - 'Tests/*'
                 - 'bin/*'
-                - 'library/*'
             paths: {  }
     php_pdepend:
         enabled: true
@@ -27,10 +23,8 @@ tools:
         filter:
             excluded_paths:
                 - 'vendor/*'
-                - 'tests/*'
-                - 'app/*'
+                - 'Tests/*'
                 - 'bin/*'
-                - 'library/*'
             paths: {  }
     php_analyzer:
         config:
@@ -44,10 +38,8 @@ tools:
         filter:
             excluded_paths:
                 - 'vendor/*'
-                - 'tests/*'
-                - 'app/*'
+                - 'Tests/*'
                 - 'bin/*'
-                - 'library/*'
             paths: {  }
         path_configs: {  }
     php_changetracking:
@@ -60,11 +52,10 @@ tools:
         filter:
             excluded_paths:
                 - 'vendor/*'
-                - 'tests/*'
-                - 'app/*'
+                - 'Tests/*'
                 - 'bin/*'
-                - 'library/*'
             paths: {  }
+    php_code_coverage: true
 before_commands:
     - "composer install --prefer-source"
 after_commands: {  }
