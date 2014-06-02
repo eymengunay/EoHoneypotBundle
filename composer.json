@@ -13,6 +13,9 @@
     "require": {
         "symfony/symfony": "~2.1"
     },
+    "require-dev": {
+        "eo/symfony-test-edition": "dev-master"
+    },
     "target-dir": "Eo/HoneypotBundle",
     "autoload": {
         "psr-0": {
