@@ -1,6 +1,11 @@
 # EoHoneypotBundle
 
-[![Dependencies Status](https://d2xishtp1ojlk0.cloudfront.net/d/10199786)](http://depending.in/eymengunay/EoHoneypotBundle)
+[![Build Status](https://travis-ci.org/eymengunay/EoHoneypotBundle.svg?branch=master)](https://travis-ci.org/eymengunay/EoHoneypotBundle)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eymengunay/EoHoneypotBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eymengunay/EoHoneypotBundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/eymengunay/EoHoneypotBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/eymengunay/EoHoneypotBundle/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/eo/honeypot-bundle/v/stable.svg)](https://packagist.org/packages/eo/honeypot-bundle) 
+[![Total Downloads](https://poser.pugx.org/eo/honeypot-bundle/downloads.svg)](https://packagist.org/packages/eo/honeypot-bundle)
+
 
 Honeypot for Symfony2 forms.
 
