@@ -31,6 +31,11 @@ class HoneypotPrey implements HoneypotPreyInterface
      */
     protected $createdAt;
 
+    /**
+     * Class constructor
+     * 
+     * @param string $ip
+     */
     public function __construct($ip = null)
     {
         $this->ip = $ip;
@@ -56,6 +61,7 @@ class HoneypotPrey implements HoneypotPreyInterface
     public function setIp($ip)
     {
         $this->ip = $ip;
+
         return $this;
     }
 
@@ -78,6 +84,7 @@ class HoneypotPrey implements HoneypotPreyInterface
     public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+        
         return $this;
     }
 
