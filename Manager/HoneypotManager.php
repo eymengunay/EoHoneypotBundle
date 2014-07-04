@@ -21,6 +21,11 @@ class HoneypotManager
      * @var array
      */
     protected $options;
+    
+    /**
+     * @var ObjectManager
+     */
+    protected $om;
 
     /**
      * Class constructor
