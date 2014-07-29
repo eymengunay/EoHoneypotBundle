@@ -70,7 +70,9 @@ eo_honeypot:
             # output: /var/log/honeypot.log
     redirect:
         enabled: true
-        to: "/"
+        url: "/"
+        # route: homepage
+        # route_parameters: ~
 ```
 
 ## Usage
