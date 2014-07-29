@@ -14,24 +14,27 @@ namespace Eo\HoneypotBundle\Form\Type;
 use Eo\HoneypotBundle\Events;
 use Eo\HoneypotBundle\Event\BirdInCageEvent;
 use Doctrine\Common\Persistence\ObjectManager;
+use Eo\HoneypotBundle\Manager\HoneypotManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class HoneypotType extends AbstractType
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected $request;
+    protected $honeypotManager;
+    protected $eventDispatcher;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(Request $request, HoneypotManager $honeypotManager, EventDispatcherInterface $eventDispatcher)
     {
-        $this->container = $container;
+        $this->request = $request;
+        $this->honeypotManager = $honeypotManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -43,29 +46,34 @@ class HoneypotType extends AbstractType
         // and re-introduced with 5.4. This small hack is here for 5.3 compability.
         // https://wiki.php.net/rfc/closures/removal-of-this
         // http://php.net/manual/en/migration54.new-features.php
-        $container = $this->container;
+        $request = $this->request;
+        $honeypotManager = $this->honeypotManager;
+        $eventDispatcher = $this->eventDispatcher;
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) use ($container) {
-            if ($event->getData()) {
-                $request = $container->get('request');
-                $hm = $container->get('eo_honeypot.manager');
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) use ($request, $honeypotManager, $eventDispatcher) {
+            $data = $event->getData();
+            $form = $event->getForm();
 
-                // Create new prey
-                $prey = $hm->createNew($request->getClientIp());
-
-                // Dispatch bird.in.cage event
-                $container->get('event_dispatcher')->dispatch(Events::BIRD_IN_CAGE, new BirdInCageEvent($prey));
-
-                // Save prey
-                $hm->save($prey);
-
-                $options = $hm->getOptions();
-                if ($options['redirect']['enabled']) {
-                    header(sprintf("Location: %s", $options['redirect']['to'] ? $options['redirect']['to'] : $request->getUri()));
-                    exit;
-                }
-                $event->getForm()->getParent()->addError(new FormError('Form is invalid.'));
+            if (null === $data) {
+                return;
             }
+
+            // Create new prey
+            $prey = $honeypotManager->createNew($request->getClientIp());
+
+            // Dispatch bird.in.cage event
+            $eventDispatcher->dispatch(Events::BIRD_IN_CAGE, new BirdInCageEvent($prey));
+
+            // Save prey
+            $honeypotManager->save($prey);
+
+            $options = $honeypotManager->getOptions();
+            if ($options['redirect']['enabled']) {
+                header(sprintf("Location: %s", $options['redirect']['to'] ? $options['redirect']['to'] : $request->getUri()));
+                exit;
+            }
+
+            $form->getParent()->addError(new FormError('Form is invalid.'));
         });
     }
 
