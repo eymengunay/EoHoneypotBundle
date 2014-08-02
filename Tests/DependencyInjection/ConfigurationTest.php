@@ -15,7 +15,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'redirect' => array(
                 'enabled' => false,
-                'to' => false
+                'url' => null,
+                'route' => null,
+                'route_parameters' => array(),
             ),
             'storage' => array(
                 'database' => array(

@@ -7,6 +7,8 @@
     <parameters>
         <parameter key="eo_honeypot.manager.class">Eo\HoneypotBundle\Manager\HoneypotManager</parameter>
         <parameter key="eo_honeypot.form.type.class">Eo\HoneypotBundle\Form\Type\HoneypotType</parameter>
+        <parameter key="eo_honeypot.redirect_listener.class">Eo\HoneypotBundle\EventListener\RedirectListener</parameter>
+        <parameter key="eo_honeypot.event.bird_in_cage" type="constant">Eo\HoneypotBundle\Events::BIRD_IN_CAGE</parameter>
     </parameters>
 
     <services>
@@ -21,6 +23,15 @@
             <argument type="service" id="eo_honeypot.manager"/>
             <argument type="service" id="event_dispatcher"/>
             <tag name="form.type" alias="honeypot" />
+        </service>
+
+        <!-- RedirectListener -->
+        <service id="eo_honeypot.redirect_listener" class="%eo_honeypot.redirect_listener.class%" scope="request">
+            <argument type="service" id="router"/>
+            <argument type="service" id="request"/>
+            <argument type="service" id="eo_honeypot.manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <tag name="kernel.event_listener" event="%eo_honeypot.event.bird_in_cage%" method="onBirdInCage" />
         </service>
     </services>
 

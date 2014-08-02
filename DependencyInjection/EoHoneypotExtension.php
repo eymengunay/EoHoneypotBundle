@@ -52,5 +52,10 @@ class EoHoneypotExtension extends Extension
             $container->getDefinition('eo_honeypot.manager')->addMethodCall('setObjectManager', array($db));
         }
         $container->setParameter('eo_honeypot.options', $config);
+
+        // Remove RedirectListener if redirect is disabled
+        if (!$config['redirect']['enabled']) {
+            $container->removeDefinition('eo_honeypot.redirect_listener');
+        }
     }
 }

@@ -67,12 +67,6 @@ class HoneypotType extends AbstractType
             // Save prey
             $honeypotManager->save($prey);
 
-            $options = $honeypotManager->getOptions();
-            if ($options['redirect']['enabled']) {
-                header(sprintf("Location: %s", $options['redirect']['to'] ? $options['redirect']['to'] : $request->getUri()));
-                exit;
-            }
-
             $form->getParent()->addError(new FormError('Form is invalid.'));
         });
     }
