@@ -26,9 +26,8 @@
         </service>
 
         <!-- RedirectListener -->
-        <service id="eo_honeypot.redirect_listener" class="%eo_honeypot.redirect_listener.class%" scope="request">
+        <service id="eo_honeypot.redirect_listener" class="%eo_honeypot.redirect_listener.class%">
             <argument type="service" id="router"/>
-            <argument type="service" id="request"/>
             <argument type="service" id="eo_honeypot.manager"/>
             <argument type="service" id="event_dispatcher"/>
             <tag name="kernel.event_listener" event="%eo_honeypot.event.bird_in_cage%" method="onBirdInCage" />
