@@ -6,6 +6,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Routing\RouterInterface;
 
 class RedirectListener
@@ -30,6 +31,10 @@ class RedirectListener
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
+        if (HttpKernel::MASTER_REQUEST != $event->getRequestType()) {
+            return;
+        }
+
         $options = $this->honeypotManager->getOptions();
 
         $url = $options['redirect']['url'];
