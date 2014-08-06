@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HoneypotTypeTest extends \PHPUnit_Framework_TestCase
 {
-    private $triggered;
+    public $triggered;
 
     protected function setUp()
     {
@@ -45,9 +45,11 @@ class HoneypotTypeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(new HoneypotPrey()))
         ;
 
+        $that = $this;
+
         $eventDispatcher = new EventDispatcher();
-        $eventDispatcher->addListener(Events::BIRD_IN_CAGE, function () {
-            $this->triggered = true;
+        $eventDispatcher->addListener(Events::BIRD_IN_CAGE, function () use ($that) {
+            $that->triggered = true;
         });
 
         $factory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
