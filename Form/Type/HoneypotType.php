@@ -54,7 +54,7 @@ class HoneypotType extends AbstractType
             $data = $event->getData();
             $form = $event->getForm();
 
-            if (null === $data) {
+            if (!$data) {
                 return;
             }
 
