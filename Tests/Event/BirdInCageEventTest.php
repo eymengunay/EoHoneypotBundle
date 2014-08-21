@@ -9,7 +9,7 @@ class BirdInCageEventTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrey()
     {
-        $prey  = new HoneypotPrey();
+        $prey = $stub = $this->getMockForAbstractClass('Eo\HoneypotBundle\Model\HoneypotPrey');
         $event = new BirdInCageEvent($prey);
 
         $this->assertEquals($event->getPrey(), $prey);

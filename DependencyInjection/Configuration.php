@@ -49,7 +49,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('database')
                             ->canBeEnabled()
                             ->children()
-                                ->scalarNode('class')->defaultValue('EoHoneypotBundle:HoneypotPrey')->end()
+                                ->scalarNode('class')->defaultValue('ApplicationEoHoneypotBundle:HoneypotPrey')->end()
                                 ->scalarNode('driver')
                                     ->defaultValue('mongodb')
                                     ->validate()

@@ -62,7 +62,7 @@ eo_honeypot:
         database:
             enabled: false
             driver: mongodb # orm and mongodb are supported
-            class: EoHoneypotBundle:HoneypotPrey
+            class: ApplicationEoHoneypotBundle:HoneypotPrey
         # You can also use file format to store honeypot preys.
         # This may come handy if you need to parse logs with fail2ban
         # file:
@@ -74,6 +74,64 @@ eo_honeypot:
         # route: homepage
         # route_parameters: ~
 ```
+
+If you enable the database storage, you must create a class which extends
+the `Eo\HoneypotBundle\<Entity|Document>\HoneypotPrey` base class :
+
+```
+<?php
+namespace Application\Eo\HoneypotBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Eo\HoneypotBundle\Entity\HoneypotPrey as BaseHoneypotPrey;
+
+/**
+ * @ORM\Entity
+ */
+class HoneypotPrey extends BaseHoneypotPrey
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+}
+
+```
+
+or
+
+
+```
+<?php
+namespace Application\Eo\HoneypotBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Eo\HoneypotBundle\Document\HoneypotPrey as BaseHoneypotPrey;
+
+/**
+ * @MongoDB\Document
+ */
+class HoneypotPrey extends BaseHoneypotPrey
+{
+    /**
+     * @MongoDB\Id
+     */
+    protected $id;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+}
+```
+
 
 ## Usage
 Once installed and configured you can start using `honeypot` type in your forms.

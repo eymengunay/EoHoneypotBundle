@@ -12,30 +12,7 @@
 namespace Eo\HoneypotBundle\Entity;
 
 use Eo\HoneypotBundle\Model\HoneypotPrey as BaseHoneypotPrey;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Eo\HoneypotBundle\Entity\HoneypotPrey
- *
- * @ORM\Entity
- * @ORM\Table(name="honeypot_prey")
- */
-class HoneypotPrey extends BaseHoneypotPrey
+abstract class HoneypotPrey extends BaseHoneypotPrey
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    protected $id;
-
-    /**
-     * @ORM\Column(length=45)
-     */
-    protected $ip;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $createdAt;
 }

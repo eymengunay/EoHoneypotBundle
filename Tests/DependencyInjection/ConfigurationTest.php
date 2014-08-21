@@ -22,7 +22,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'storage' => array(
                 'database' => array(
                     'enabled' => false,
-                    'class' => 'EoHoneypotBundle:HoneypotPrey',
+                    'class' => 'ApplicationEoHoneypotBundle:HoneypotPrey',
                     'driver' => 'mongodb'
                 ),
                 'file' => array(
