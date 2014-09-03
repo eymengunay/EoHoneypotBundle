@@ -85,7 +85,7 @@ class HoneypotType extends AbstractType
                 'tabindex' => -1,
                 // Fake `display:none` css behaviour to hide input
                 // as some bots may also check inputs visibility
-                'style' => 'position: absolute; left: -100%; top: -100%;'
+                'style' => 'position: fixed; left: -100%; top: -100%;'
             )
         ));
     }
