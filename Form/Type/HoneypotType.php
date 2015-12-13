@@ -21,18 +21,36 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HoneypotType extends AbstractType
 {
-    protected $request;
+    /**
+     * @var Symfony\Component\HttpFoundation\RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * @var Eo\HoneypotBundle\Manager\HoneypotManager
+     */
     protected $honeypotManager;
+
+    /**
+     * @var Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
     protected $eventDispatcher;
 
-    public function __construct(Request $request, HoneypotManager $honeypotManager, EventDispatcherInterface $eventDispatcher)
+    /**
+     * Class constructor
+     *
+     * @param Symfony\Component\HttpFoundation\RequestStack $requestStack
+     * @param Eo\HoneypotBundle\Manager\HoneypotManager $honeypotManager
+     * @param Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(RequestStack $requestStack, HoneypotManager $honeypotManager, EventDispatcherInterface $eventDispatcher)
     {
-        $this->request = $request;
+        $this->requestStack = $requestStack;
         $this->honeypotManager = $honeypotManager;
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -46,7 +64,7 @@ class HoneypotType extends AbstractType
         // and re-introduced with 5.4. This small hack is here for 5.3 compability.
         // https://wiki.php.net/rfc/closures/removal-of-this
         // http://php.net/manual/en/migration54.new-features.php
-        $request = $this->request;
+        $request = $this->requestStack->getCurrentRequest();
         $honeypotManager = $this->honeypotManager;
         $eventDispatcher = $this->eventDispatcher;
 

@@ -1,7 +1,7 @@
 {
     "name": "eo/honeypot-bundle",
     "type": "symfony-bundle",
-    "description": "Honeypot trap for Symfony2 forms.",
+    "description": "Honeypot trap for Symfony3 forms.",
     "keywords": ["honeypot", "spam"],
     "license": "MIT",
     "authors": [
@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "symfony/symfony": "~2.1"
+        "symfony/symfony": "~2.8"
     },
     "require-dev": {
         "eo/symfony-test-edition": "dev-master"
