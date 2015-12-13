@@ -45,6 +45,18 @@ class HoneypotTypeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(new HoneypotPrey()))
         ;
 
+        $requestStack = $this->getMockBuilder('Symfony\Component\HttpFoundation\RequestStack')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getCurrentRequest'))
+            ->getMock()
+        ;
+
+        $requestStack
+            ->expects($this->any())
+            ->method('getCurrentRequest')
+            ->will($this->returnValue(new Request()))
+        ;
+
         $that = $this;
 
         $eventDispatcher = new EventDispatcher();
@@ -56,7 +68,7 @@ class HoneypotTypeTest extends \PHPUnit_Framework_TestCase
 
         $builder = new FormBuilder('honeypot', null, $eventDispatcher, $factory);
 
-        $type = new HoneypotType(new Request(), $honeypotManager, $eventDispatcher);
+        $type = new HoneypotType($requestStack, $honeypotManager, $eventDispatcher);
         $type->buildForm($builder, array());
 
         $parent = $this->getMockBuilder('Symfony\Component\Form\Form')
