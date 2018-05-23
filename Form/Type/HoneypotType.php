@@ -99,7 +99,8 @@ class HoneypotType extends AbstractType
             'mapped'   => false,
             'data'     => '',
             'attr'     => array(
-                'autocomplete' => 'off',
+                //autocomplete="off" does not work in some cases, random strings always do
+                'autocomplete' => 'nope',
                 'tabindex' => -1,
                 // Fake `display:none` css behaviour to hide input
                 // as some bots may also check inputs visibility
