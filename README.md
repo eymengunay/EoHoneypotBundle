@@ -19,35 +19,24 @@ This version of the bundle requires Symfony 2.1+
 
 ## Installation
 
-### Step 1: Download EoHoneypotBundle using composer
-Add EoHoneypotBundle in your composer.json:
+### Step 1: Download EoHoneypotBundle using Composer
+Add EoHoneypotBundle to your project by running the command:
 ```
-{
-    "require": {
-        "eo/honeypot-bundle": "dev-master"
-    }
-}
+$ composer require eo/honeypot-bundle
 ```
-
-Now tell composer to download the bundle by running the command:
-```
-$ php composer.phar update eo/honeypot-bundle
-```
-Composer will install the bundle to your project's vendor/eo directory.
+Composer will install the bundle to your project's `vendor/eo` directory.
 
 ### Step 2: Enable the bundle
-Enable the bundle in the kernel:
+If you use Symfony Flex - skip this step. Otherwise, enable the bundle in `bundles.php`:
 ```
 <?php
-// app/AppKernel.php
+// config/bundles.php
 
-public function registerBundles()
-{
-    $bundles = array(
-        // ...
-        new Eo\HoneypotBundle\EoHoneypotBundle(),
-    );
-}
+<?php
+return [
+    // ...
+    Eo\HoneypotBundle\EoHoneypotBundle::class => ['all' => true],
+];
 ```
 
 ### Step 3 (optional): Configure bundle to use database
@@ -55,8 +44,7 @@ To save honeypot catched requests into database you have to enable it in your co
 *All parameters are optional*
 
 ```
-# app/config.yml
-...
+# config/packages/eo_honeypot.yaml
 eo_honeypot:
     storage:
         database:
@@ -134,7 +122,8 @@ class HoneypotPrey extends BaseHoneypotPrey
 
 
 ## Usage
-Once installed and configured you can start using `honeypot` type in your forms.
+Once installed and configured you can start using `Eo\HoneypotBundle\Form\Type\HoneypotType`
+form type in your forms.
 
 ### Basic usage example:
 ```
@@ -142,23 +131,21 @@ Once installed and configured you can start using `honeypot` type in your forms.
 
 namespace Acme\DemoBundle\Form\Type;
 
+use Eo\HoneypotBundle\Form\Type\HoneypotType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class FooType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text');
-        $builder->add('email', 'text');
+        $builder->add('name', TextType);
+        $builder->add('email', EmailType);
 
         // Honeypot field
-        $builder->add('SOME-FAKE-NAME', 'honeypot');
-    }
-
-    public function getName()
-    {
-        return 'foo';
+        $builder->add('SOME-FAKE-NAME', HoneypotType::class);
     }
 }
 ```
