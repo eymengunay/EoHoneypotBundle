@@ -21,7 +21,7 @@ This version of the bundle requires Symfony 2.1+
 
 ### Step 1: Download EoHoneypotBundle using composer
 Add EoHoneypotBundle in your composer.json:
-```
+```json
 {
     "require": {
         "eo/honeypot-bundle": "dev-master"
@@ -30,14 +30,14 @@ Add EoHoneypotBundle in your composer.json:
 ```
 
 Now tell composer to download the bundle by running the command:
-```
+```bash
 $ php composer.phar update eo/honeypot-bundle
 ```
 Composer will install the bundle to your project's vendor/eo directory.
 
 ### Step 2: Enable the bundle
 Enable the bundle in the kernel:
-```
+```php
 <?php
 // app/AppKernel.php
 
@@ -54,7 +54,7 @@ public function registerBundles()
 To save honeypot catched requests into database you have to enable it in your configuration file:
 *All parameters are optional*
 
-```
+```yaml
 # app/config.yml
 ...
 eo_honeypot:
@@ -78,7 +78,7 @@ eo_honeypot:
 If you enable the database storage, you must create a class which extends
 the `Eo\HoneypotBundle\<Entity|Document>\HoneypotPrey` base class :
 
-```
+```php
 <?php
 namespace Application\Eo\HoneypotBundle\Entity;
 
@@ -108,7 +108,7 @@ class HoneypotPrey extends BaseHoneypotPrey
 or
 
 
-```
+```php
 <?php
 namespace Application\Eo\HoneypotBundle\Document;
 
@@ -137,7 +137,7 @@ class HoneypotPrey extends BaseHoneypotPrey
 Once installed and configured you can start using `honeypot` type in your forms.
 
 ### Basic usage example:
-```
+```php
 <?php
 
 namespace Acme\DemoBundle\Form\Type;
