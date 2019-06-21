@@ -99,9 +99,12 @@ class HoneypotType extends AbstractType
             'mapped'   => false,
             'data'     => '',
             'attr'     => array(
-                //autocomplete="off" does not work in some cases, random strings always do
+                // autocomplete="off" does not work in some cases, random strings always do
                 'autocomplete' => 'nope',
+                // Make the field unfocusable for keyboard users
                 'tabindex' => -1,
+                // Hide the field from assistive technology like screen readers
+                'aria-hidden' => 'true',
                 // Fake `display:none` css behaviour to hide input
                 // as some bots may also check inputs visibility
                 'style' => 'position: fixed; left: -100%; top: -100%;'
