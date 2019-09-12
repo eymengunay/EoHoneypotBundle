@@ -68,7 +68,7 @@ class HoneypotType extends AbstractType
         $honeypotManager = $this->honeypotManager;
         $eventDispatcher = $this->eventDispatcher;
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) use ($request, $honeypotManager, $eventDispatcher) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) use ($request, $honeypotManager, $eventDispatcher, $options) {
             $data = $event->getData();
             $form = $event->getForm();
 
@@ -85,7 +85,9 @@ class HoneypotType extends AbstractType
             // Save prey
             $honeypotManager->save($prey);
 
-            $form->getParent()->addError(new FormError('Form is invalid.'));
+            if ($options['causesError']) {
+                $form->getParent()->addError(new FormError('Form is invalid.'));
+            }
         });
     }
 
@@ -95,10 +97,11 @@ class HoneypotType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'required' => false,
-            'mapped'   => false,
-            'data'     => '',
-            'attr'     => array(
+            'required'    => false,
+            'mapped'      => false,
+            'data'        => '',
+            'causesError' => true,
+            'attr'        => array(
                 // autocomplete="off" does not work in some cases, random strings always do
                 'autocomplete' => 'nope',
                 // Make the field unfocusable for keyboard users
