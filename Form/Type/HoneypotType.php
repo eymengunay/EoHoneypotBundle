@@ -80,7 +80,7 @@ class HoneypotType extends AbstractType
             $prey = $honeypotManager->createNew($request->getClientIp());
 
             // Dispatch bird.in.cage event
-            $eventDispatcher->dispatch(Events::BIRD_IN_CAGE, new BirdInCageEvent($prey));
+            $eventDispatcher->dispatch(new BirdInCageEvent($prey), Events::BIRD_IN_CAGE);
 
             // Save prey
             $honeypotManager->save($prey);

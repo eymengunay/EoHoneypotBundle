@@ -79,7 +79,7 @@ class HoneypotTypeTest extends \PHPUnit_Framework_TestCase
         $form = $builder->getForm();
         $form->setParent($parent);
 
-        $eventDispatcher->dispatch(FormEvents::PRE_SUBMIT, new FormEvent($form, $data));
+        $eventDispatcher->dispatch(new FormEvent($form, $data), FormEvents::PRE_SUBMIT);
 
         $this->assertEquals($this->triggered, $trigger);
     }
