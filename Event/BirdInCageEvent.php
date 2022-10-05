@@ -12,7 +12,7 @@
 namespace Eo\HoneypotBundle\Event;
 
 use Eo\HoneypotBundle\Model\HoneypotPreyInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class BirdInCageEvent extends Event
 {
