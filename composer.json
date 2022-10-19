@@ -26,6 +26,9 @@
     "autoload": {
         "psr-0": {
             "Eo\\HoneypotBundle": ""
+        },
+        "psr-4": {
+            "Eo\\HoneypotBundle\\": ""
         }
     },
     "extra": {

@@ -27,7 +27,7 @@ class HoneypotPrey implements HoneypotPreyInterface
     protected $ip;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     protected $createdAt;
 
@@ -78,7 +78,7 @@ class HoneypotPrey implements HoneypotPreyInterface
     /**
      * Set createdAt
      *
-     * @param  DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return self
      */
     public function setCreatedAt(\DateTime $createdAt)
@@ -91,7 +91,7 @@ class HoneypotPrey implements HoneypotPreyInterface
     /**
      * Get createdAt
      *
-     * @return DateTime $createdAt
+     * @return \DateTime $createdAt
      */
     public function getCreatedAt()
     {
