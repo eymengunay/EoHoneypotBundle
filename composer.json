@@ -13,19 +13,13 @@
     "require": {
         "symfony/framework-bundle": "~5.0"
     },
-    "require-dev": {
-        "eo/symfony-test-edition": "~3.0"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/iisisrael/symfony-test"
-        }
-    ],
     "target-dir": "Eo/HoneypotBundle",
     "autoload": {
         "psr-0": {
             "Eo\\HoneypotBundle": ""
+        },
+        "psr-4": {
+            "Eo\\HoneypotBundle\\": ""
         }
     },
     "extra": {
