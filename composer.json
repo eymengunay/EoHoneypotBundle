@@ -22,7 +22,6 @@
             "url": "https://github.com/iisisrael/symfony-test"
         }
     ],
-    "target-dir": "Eo/HoneypotBundle",
     "autoload": {
         "psr-0": {
             "Eo\\HoneypotBundle": ""
