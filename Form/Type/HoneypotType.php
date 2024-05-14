@@ -58,7 +58,7 @@ class HoneypotType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Closure $this support was removed temporarily from PHP 5.3
         // and re-introduced with 5.4. This small hack is here for 5.3 compability.
@@ -94,7 +94,7 @@ class HoneypotType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'required'    => false,
@@ -118,7 +118,7 @@ class HoneypotType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
