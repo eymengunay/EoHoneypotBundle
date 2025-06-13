@@ -15,14 +15,14 @@ Honeypot for Symfony2 forms.
 > It’s a very simple concept that can be implemented in a few minutes and it just works – add them to your contact and submission forms to help reduce spam.
 
 ## Prerequisites
-This version of the bundle requires Symfony 2.1+
+This version of the bundle requires Symfony 5+
 
 ## Installation
 
 ### Step 1: Download EoHoneypotBundle using Composer
 Add EoHoneypotBundle to your project by running the command:
 ```bash
-$ composer require eo/honeypot-bundle
+composer require eo/honeypot-bundle
 ```
 
 Composer will install the bundle to your project's `vendor/eo` directory.
