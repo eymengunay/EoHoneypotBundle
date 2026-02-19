@@ -22,7 +22,7 @@ class FormCompilerPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $resources = $container->getParameter('twig.form.resources');
         if (in_array('@EoHoneypot/Form/div_layout.html.twig', $resources, true) === false) {
